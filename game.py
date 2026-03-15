@@ -7,7 +7,7 @@ st.set_page_config(
 )
 
 # ---------首頁---------
-st.title("🔍 結構破案：中山機電偵查局")
+st.title("🔍 中山機電偵查局")
 
 st.write("""
 中山機電研究中心的監測系統遭到破壞。
@@ -25,7 +25,7 @@ page = st.sidebar.radio(
 if page == "首頁":
 
     st.header("遊戲說明")
-
+    st.image("images/home_1.jpg", caption="中山機電偵查局任務入口")
     st.write("""
     1️⃣ 完成實體電路  
     2️⃣ 在系統輸入答案  
@@ -36,7 +36,7 @@ if page == "首頁":
 elif page == "第一關：LED電路":
 
     st.header("第一關：修復LED電路")
-
+    
     st.write("""
     LED 指示燈全部熄滅，
     請完成電路拼接。
