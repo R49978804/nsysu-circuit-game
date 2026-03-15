@@ -1,6 +1,6 @@
 import qrcode
 
-url = "https://github.com/R49978804/nsysu-circuit-game.git"
+url = "https://nsysu-circuit-game-ukojsrrq2ahqmzc6ybyprh.streamlit.app/"
 
 img = qrcode.make(url)
 
