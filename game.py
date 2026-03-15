@@ -1,4 +1,12 @@
 import streamlit as st
+from streamlit_lottie import st_lottie
+import requests
+
+def load_lottie(url):
+    r = requests.get(url)
+    if r.status_code != 200:
+        return None
+    return r.json()
 
 st.set_page_config(
     page_title="中山機電偵查局",
@@ -9,12 +17,16 @@ st.set_page_config(
 # ---------首頁---------
 st.title("🔍 中山機電偵查局")
 
-st.write("""
-中山機電研究中心的監測系統遭到破壞。
+# st.write("""
+# 🎬 故事背景
+         
+# 中山機電研究中心的一套「環境監測與控制系統」突然發生異常，
+# 系統的部分電路被破壞，導致整個監測系統停止運作。
 
-三個重要電路模組失去功能，
-你們是機電偵查員，必須修復電路並找出最終密碼。
-""")
+# 研究中心懷疑有人動過電路板，因此啟動 「機電偵查任務」。
+
+# 你們將扮演 中山機電偵查員，透過工程推理與電路修復，逐步修復系統。
+# """)
 
 page = st.sidebar.radio(
     "請選擇關卡",
@@ -102,16 +114,19 @@ if page == "首頁":
 
     st.markdown("""
     <div class="hero-box">
-        <div class="hero-title">🔍 結構破案：中山機電偵查局</div>
+        <div class="hero-title">🎬 故事背景</div>
         <div class="hero-subtitle">
-            中山機電研究中心的監測系統遭到破壞。<br>
-            三個重要電路模組失去功能，現在需要你們化身偵查員，<br>
-            透過觀察、拼接與推理，逐步修復系統，找出最終密碼。
+            中山機電研究中心的一套「環境監測與控制系統」突然發生異常，
+            系統的部分電路被破壞，導致整個監測系統停止運作。<br>
+             <br>
+            研究中心懷疑有人動過電路板，因此啟動 「機電偵查任務」。<br>
+             <br>
+            你們將扮演 中山機電偵查員，透過工程推理與電路修復，逐步修復系統。
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown('<div class="section-title">🎮 任務流程</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">🕵️ 偵查提示</div>', unsafe_allow_html=True)
 
     st.markdown("""
     <div class="step-card">
@@ -140,20 +155,10 @@ if page == "首頁":
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("""
-    <div class="hint-box">
-        <div class="hint-title">🕵️ 偵查提示</div>
-        <div class="hint-text">
-            請從左側欄選擇關卡開始挑戰。<br>
-            每一關都代表一個待修復的系統模組，請仔細觀察現象並推理答案。
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
 # ---------第一關---------
 elif page == "第一關：LED電路":
 
-    st.header("第一關：修復LED電路")
+    st.header("第一關：修復 LED 電路")
     
     st.write("""
     LED 指示燈全部熄滅，
@@ -162,15 +167,24 @@ elif page == "第一關：LED電路":
     當電路修復後，觀察亮起的顏色與數量。
     """)
 
-    answer = st.text_input("輸入答案，例如：red3")
+    st.subheader("請輸入各顏色 LED 數量")
+
+    red = st.number_input("🔴 紅色 LED", min_value=0, max_value=10, value=0)
+    green = st.number_input("🟢 綠色 LED", min_value=0, max_value=10, value=0)
+    white = st.number_input("⚪ 白色 LED", min_value=0, max_value=10, value=0)
+    yellow = st.number_input("🟡 黃色 LED", min_value=0, max_value=10, value=0)
 
     if st.button("確認答案"):
 
-        if answer == "red3":
-            st.success("第一關成功！")
-            st.balloons()
+        if red == 3 and green == 0 and white == 1 and yellow == 2:
+
+            st.success("第一關成功！LED 模組已恢復。")
+            url = "https://assets2.lottiefiles.com/packages/lf20_jbrw3hcz.json"
+            lottie_success = load_lottie(url)
+
         else:
-            st.error("答案不正確，請再檢查電路")
+
+            st.error("LED 數量不正確，請再檢查電路。")
 
 # ---------第二關---------
 elif page == "第二關：RLC濾波":
