@@ -290,7 +290,7 @@ elif page == "第二關：RC電路":
     "https://www.falstad.com/circuit/circuitjs.html?ctz=CQAgjCAMB0l5YCcyWrQDnNA7HATJAMzIAsciZeIArJDSCZtQKYC0YYAUAG4MBsJEIT6YSAkOjp0IfOtSgKY1TgHd+gyTURVNkVVqrDR4o1E4BjCeKQ7xedKKix4kNG7Qg80JNjxiw2IRg6CRUMHAQegBOIIiy4Nqx8faYdCSEegAesYjyfphgkHh51BCCYHwgADYA9gCGACacDQYSdCKYmlQNzABmdQCuVQAuzSAd4PHUiRV03X2DI2PTVCnjDp4b8-1Doy0TpitCIp4gPTtLakezrbr6R2tHpnpqE5rYIW1mah8adL+bVL6AFrCZrF7rArxXzSeIQmGTf4EY5An7I0wHE4Q9DWRI4v7fKwEgF3NT4r5xOikpJUuiUhJhfTktbk55MkwnBFstT0tb07k0lFEoUQwjUQwnYqVAVi1YbWUi-RSoUcCWooTir4KmyE5WaBXUvXSbCVamqoX6rH6c03c0CzS2sBUG4QgKVFlzDauk1fN2AwmaB0+6nsd0bUOKtQRm4Ru4tS2YCOmbaLPYgCMe-0p3ZjB3xaPJM4LHMtWO0r7ZpbZQjobCeRgMAKeUoMSbVepNGLaxIK8EMDL6JMndgkQQCkcEstmXgToWz3TgcZyRROZRkQgSQiGT6FPwMBckAD66EPkEPYDFATP1FP3kP7EPeEPR8InHX6YImBrgjS4jSJ5PM8yEQE8bxgMB7wgp9GEPV93x1UwSAqdQFBIG9AOfVxQNvCCH2gm9XxqBh5B-cBL1wehwIUSo0KEfdUK-Vs0iETggA"
     )
 
-    c = st.slider("C值(uF)", 1, 100, 10)
+    c = st.slider("C值(uF)", 10, 100, 10, step=10)
 
     if st.button("測試濾波", use_container_width=True):
         if c == 60:
