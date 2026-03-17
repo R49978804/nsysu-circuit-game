@@ -67,7 +67,7 @@ st.sidebar.info("掃描活動 QR Code 後，即可進入本介面開始闖關。
 
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 🧾 目前進度")
-for p in ["第一關：LED電路", "第二關：RLC濾波", "第三關：溫度轉換"]:
+for p in ["第一關：LED電路", "第二關：RC電路"]:
     st.sidebar.write(f"- {p}：{level_status_text(p)}")
 
 # =========================
@@ -154,7 +154,7 @@ if page == "首頁":
     <div class="step-card">
         <div class="step-title">1️⃣ 完成實體電路</div>
         <div class="step-text">
-            根據現場的線索與元件功能，將缺失的電路拼接完成。
+            根據現場的線索與元件功能，完成電路拼接。
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -163,7 +163,7 @@ if page == "首頁":
     <div class="step-card">
         <div class="step-title">2️⃣ 在系統輸入答案</div>
         <div class="step-text">
-            觀察燈號、濾波結果或轉換數值，將你找到的答案輸入系統。
+            觀察濾波結果與轉換數值，將你找到的答案輸入系統。
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -172,7 +172,7 @@ if page == "首頁":
     <div class="step-card">
         <div class="step-title">3️⃣ 解鎖下一關</div>
         <div class="step-text">
-            每成功修復一個模組，就能取得新線索，並逐步接近最終真相。
+            每成功修復一個模組，就能取得新線索，並逐步修復系統。
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -195,13 +195,13 @@ elif page == "第一關：LED電路":
     st.title("💡 第一關：七段顯示器挑戰")
 
     st.write("""
-             偵查員進入控制室後發現顯示模組已被破壞。
+             偵查員進入控制室後發現顯示模組被破壞。
              
              系統使用 **七段顯示器 (Seven Segment Display)** 來顯示數字。
 
-             現在系統會隨機抽出一個數字 (0–9)，  
-             你需要利用桌上的元件組裝電路，  
-             讓七段顯示器顯示該數字。
+             系統會隨機抽出一個數字 **(0–9)**，  
+             你需要利用桌上的元件組裝電路，
+             讓七段顯示器可以成功顯示。
     """)
 
     # 初始化
@@ -249,11 +249,11 @@ elif page == "第一關：LED電路":
                 st.balloons()
 
                 complete_level("第一關：LED電路")
-                unlock_level("第二關：RLC濾波")
+                unlock_level("第二關：RC電路")
 
                 time.sleep(1.5)
 
-                go_to("第二關：RLC濾波")
+                go_to("第二關：RC電路")
 
             else:
 
@@ -266,82 +266,45 @@ elif page == "第一關：LED電路":
 # =========================
 # 第二關
 # =========================
-elif page == "第二關：RLC濾波":
+elif page == "第二關：RC電路":
     st.title("📡 第二關：訊號濾波任務")
 
     st.write("""
-    偵查員成功恢復電源後，發現環境感測器的訊號仍然異常。  
+    現在你已經成功恢復電源，檢測訊號發現環境感測器的訊號有異常。""")
+             
+    st.markdown("### 💻系統顯示：感測訊號受到雜訊干擾，導致數據不穩定")
 
-    系統顯示：感測訊號受到雜訊干擾，導致數據不穩定。  
+    st.write("""
+    因此你查看了放在桌子旁邊的工程日誌，寫到：這個模組原本使用 RC 濾波器來處理訊號。  
+    但現在有些元件的數值被調整，所以濾波效果失效了。  
 
-    工程日誌顯示，這個模組原本使用 RLC 濾波器來處理訊號。  
-    但現在部分元件的數值被調整過，濾波效果失效。  
-
-    請調整電腦中的 R、L、C 的數值，使電路達到指定的濾波效果。
+    要請你調整電腦中的 ##C 數值## ，達到指定的濾波效果
     """)
+    st.markdown("#### 📘工程日誌顯示：正常的電壓平均值要在 **3.4V~3.5V** 之間。")
     st.components.v1.iframe(
-    "https://www.falstad.com/circuit/circuitjs.html?ctz=CQAgjCAMB0l5YCcyWrQDhAZmmA7AGxbIBMW6BY6VWALCAKySMi2YMCmAtGGAFAA3VgXpYCmWiJDpmzCAWYMoymAz4B3YfRmNEJabI279YiVNNQ+AY2lSk+ivRLoJUWPEhovaECWjpaEl44PD1ISUQ6NzgISD4AJxBEBXA9JJTnTGZaLDiADyTEJRI2cEgSYoYIejACEAAbAHsAQwATPlbjAxBxTB19Vo4AM2aAV3qAFw6el3AUhjTa5gHhscnphf1MmcxtlZHxqc7e7HEui321qc1NucU0nTibtO3biyed7rwA7o-v7WY-18sz+P22J22HxOSxAeBIchSf3hd1hyPeRjhzAsJ3RmkcqQcUkeRnxOiBxLxROYyWYFPStOpKXslkpTlm+NxtlEZ0xpyyRhpwMwgs5IrOHLOHywDBMZwqdU50q2syVfJZvgYCrOvFl-M0qp0quZH3l3QNhk0pp0+DqdJ1asNkqM9ph9s51qZYH0MI+NqF3UhzsI3T9gbxDPAwbpPDq2xjao+8Zh8eJnUdmHjFxAgwO6068e2-Vml0O0w9zCTGWzq1L+dq3R0-WruamBXIeF8pVo+A11TmDRa7USRrSqshrFyRkzZx4tG5epAs4Bi-rxKES7VG8e4B6ihUbjUtEgWGkWBMPzA5XobFkrAA+ug75A70fEI+GE-cHeeHeSC+71gfBHieXDwpg5D0NkUjZI+j7Pq+76fmA37IX+bAAUBx4Emq3Z1JIkGsB+cEvp4iEwMhP5oR+gGNIR0jKGA0r4Hu5HKHhSgnqUMHYKwyiiHwQA",
+    "https://www.falstad.com/circuit/circuitjs.html?ctz=CQAgjCAMB0l5YCcyWrQDnNA7HATJAMzIAsciZeIArJDSCZtQKYC0YYAUAG4MBsJEIT6YSAkOjp0IfOtSgKY1TgHd+gyTURVNkVVqrDR4o1E4BjCeKQ7xedKKix4kNG7Qg80JNjxiw2IRg6CRUMHAQegBOIIiy4Nqx8faYdCSEegAesYjyfphgkHh51BCCYHwgADYA9gCGACacDQYSdCKYmlQNzABmdQCuVQAuzSAd4PHUiRV03X2DI2PTVCnjDp4b8-1Doy0TpitCIp4gPTtLakezrbr6R2tHpnpqE5rYIW1mah8adL+bVL6AFrCZrF7rArxXzSeIQmGTf4EY5An7I0wHE4Q9DWRI4v7fKwEgF3NT4r5xOikpJUuiUhJhfTktbk55MkwnBFstT0tb07k0lFEoUQwjUQwnYqVAVi1YbWUi-RSoUcCWooTir4KmyE5WaBXUvXSbCVamqoX6rH6c03c0CzS2sBUG4QgKVFlzDauk1fN2AwmaB0+6nsd0bUOKtQRm4Ru4tS2YCOmbaLPYgCMe-0p3ZjB3xaPJM4LHMtWO0r7ZpbZQjobCeRgMAKeUoMSbVepNGLaxIK8EMDL6JMndgkQQCkcEstmXgToWz3TgcZyRROZRkQgSQiGT6FPwMBckAD66EPkEPYDFATP1FP3kP7EPeEPR8InHX6YImBrgjS4jSJ5PM8yEQE8bxgMB7wgp9GEPV93x1UwSAqdQFBIG9AOfVxQNvCCH2gm9XxqBh5B-cBL1wehwIUSo0KEfdUK-Vs0iETggA",
     height=600
     )
     st.link_button(
     "🔧 開啟濾波器模擬器",
-    "https://www.falstad.com/circuit/circuitjs.html?ctz=CQAgjCAMB0l5YCcyWrQDhAZmmA7AGxbIBMW6BY6VWALCAKySMi2YMCmAtGGAFAA3VgXpYCmWiJDpmzCAWYMoymAz4B3YfRmNEJabI279YiVNNQ+AY2lSk+ivRLoJUWPEhovaECWjpaEl44PD1ISUQ6NzgISD4AJxBEBXA9JJTnTGZaLDiADyTEJRI2cEgSYoYIejACEAAbAHsAQwATPlbjAxBxTB19Vo4AM2aAV3qAFw6el3AUhjTa5gHhscnphf1MmcxtlZHxqc7e7HEui321qc1NucU0nTibtO3biyed7rwA7o-v7WY-18sz+P22J22HxOSxAeBIchSf3hd1hyPeRjhzAsJ3RmkcqQcUkeRnxOiBxLxROYyWYFPStOpKXslkpTlm+NxtlEZ0xpyyRhpwMwgs5IrOHLOHywDBMZwqdU50q2syVfJZvgYCrOvFl-M0qp0quZH3l3QNhk0pp0+DqdJ1asNkqM9ph9s51qZYH0MI+NqF3UhzsI3T9gbxDPAwbpPDq2xjao+8Zh8eJnUdmHjFxAgwO6068e2-Vml0O0w9zCTGWzq1L+dq3R0-WruamBXIeF8pVo+A11TmDRa7USRrSqshrFyRkzZx4tG5epAs4Bi-rxKES7VG8e4B6ihUbjUtEgWGkWBMPzA5XobFkrAA+ug75A70fEI+GE-cHeeHeSC+71gfBHieXDwpg5D0NkUjZI+j7Pq+76fmA37IX+bAAUBx4Emq3Z1JIkGsB+cEvp4iEwMhP5oR+gGNIR0jKGA0r4Hu5HKHhSgnqUMHYKwyiiHwQA"
+    "https://www.falstad.com/circuit/circuitjs.html?ctz=CQAgjCAMB0l5YCcyWrQDnNA7HATJAMzIAsciZeIArJDSCZtQKYC0YYAUAG4MBsJEIT6YSAkOjp0IfOtSgKY1TgHd+gyTURVNkVVqrDR4o1E4BjCeKQ7xedKKix4kNG7Qg80JNjxiw2IRg6CRUMHAQegBOIIiy4Nqx8faYdCSEegAesYjyfphgkHh51BCCYHwgADYA9gCGACacDQYSdCKYmlQNzABmdQCuVQAuzSAd4PHUiRV03X2DI2PTVCnjDp4b8-1Doy0TpitCIp4gPTtLakezrbr6R2tHpnpqE5rYIW1mah8adL+bVL6AFrCZrF7rArxXzSeIQmGTf4EY5An7I0wHE4Q9DWRI4v7fKwEgF3NT4r5xOikpJUuiUhJhfTktbk55MkwnBFstT0tb07k0lFEoUQwjUQwnYqVAVi1YbWUi-RSoUcCWooTir4KmyE5WaBXUvXSbCVamqoX6rH6c03c0CzS2sBUG4QgKVFlzDauk1fN2AwmaB0+6nsd0bUOKtQRm4Ru4tS2YCOmbaLPYgCMe-0p3ZjB3xaPJM4LHMtWO0r7ZpbZQjobCeRgMAKeUoMSbVepNGLaxIK8EMDL6JMndgkQQCkcEstmXgToWz3TgcZyRROZRkQgSQiGT6FPwMBckAD66EPkEPYDFATP1FP3kP7EPeEPR8InHX6YImBrgjS4jSJ5PM8yEQE8bxgMB7wgp9GEPV93x1UwSAqdQFBIG9AOfVxQNvCCH2gm9XxqBh5B-cBL1wehwIUSo0KEfdUK-Vs0iETggA"
     )
 
-    r = st.slider("R值(kΩ)", 1, 10, 1)
     c = st.slider("C值(uF)", 1, 100, 10)
 
     if st.button("測試濾波", use_container_width=True):
-        if r == 1 and c == 100:
-            st.success("第二關成功！濾波模組已恢復。")
-            st.snow()
-
-            complete_level("第二關：RLC濾波")
-            unlock_level("第三關：溫度轉換")
-
-            with st.spinner("正在解鎖第三關..."):
-                time.sleep(1.5)
-
-            go_to("第三關：溫度轉換")
-        else:
-            st.warning("濾波效果不正確。")
-
-# =========================
-# 第三關
-# =========================
-elif page == "第三關：溫度轉換":
-    st.title("🌡️ 第三關：溫度解碼")
-
-    st.write("""
-    最後，偵查員發現系統的溫度監測模組無法正常顯示。  
-
-    原本系統會將感測到的攝氏溫度轉換為華氏溫度，並顯示在數位顯示器上。  
-    然而轉換電路遭到破壞，導致顯示數值錯誤。  
-
-    請利用提供的電路元件，完成溫度轉換電路，使系統能正確將：  
-
-    **F = 9/5 × C + 32**  
-
-    的計算結果輸出到顯示模組。
-    """)
-
-    celsius = st.number_input("輸入攝氏溫度", value=25)
-
-    if st.button("執行溫度轉換", use_container_width=True):
-        fahrenheit = celsius * 9 / 5 + 32
-        st.success(f"華氏溫度 = {fahrenheit}")
-
-        if fahrenheit == 77:
-            st.success("系統恢復成功！")
-            st.balloons()
-
-            complete_level("第三關：溫度轉換")
+        if c == 60:
+            st.success("第二關成功！恢復濾波模組。")
             unlock_level("系統恢復")
 
             with st.spinner("正在載入最終結果..."):
                 time.sleep(1.8)
+            unlock_level("系統恢復")
+            st.balloons()
 
             go_to("系統恢復")
+        else:
+            st.warning("濾波效果不正確。")
 
 # =========================
 # 最終成功畫面
@@ -352,8 +315,9 @@ elif page == "系統恢復":
     st.success("""
 恭喜偵查員！
 
-你們成功修復了中山機電研究中心的所有電路模組，
+你成功修復了中山機電研究中心的所有電路模組，
 系統已恢復正常運作。
+               
 """)
 
     st.balloons()
@@ -363,7 +327,6 @@ elif page == "系統恢復":
 
 ✅ LED 指示系統恢復  
 ✅ 訊號濾波系統恢復  
-✅ 溫度監測系統恢復  
 
 ### 🕵️ 中山機電偵查任務完成！
 """)
