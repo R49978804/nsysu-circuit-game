@@ -46,7 +46,7 @@ def level_status_text(level_name: str):
 # =========================
 # Sidebar
 # =========================
-all_pages = ["首頁", "第一關：LED電路", "第二關：RLC濾波", "第三關：溫度轉換", "系統恢復"]
+all_pages = ["首頁", "第一關：LED電路", "第二關：RC電路", "系統恢復"]
 
 st.sidebar.title("🕵️ 關卡選單")
 st.sidebar.write("請依序完成任務。")
