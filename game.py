@@ -1,5 +1,6 @@
 import time
 import streamlit as st
+import random
 
 st.set_page_config(
     page_title="中山機電偵查局",
@@ -191,38 +192,76 @@ if page == "首頁":
 # 第一關
 # =========================
 elif page == "第一關：LED電路":
-    st.title("💡 第一關：修復 LED 電路")
+    st.title("💡 第一關：七段顯示器挑戰")
 
     st.write("""
-    偵查員首先抵達控制室，但系統的指示電路板已經被破壞。  
-    多顆 LED 指示燈應該顯示系統狀態，但目前完全沒有反應。  
+             偵查員進入控制室後發現顯示模組已被破壞。
+             
+             系統使用 **七段顯示器 (Seven Segment Display)** 來顯示數字。
 
-    現場留下部分電路圖與元件，你們必須拼接電路，讓整個電路形成完整通路。  
-    請完成桌上的電路，當電路恢復運作後，LED 指示燈將亮起。
+             現在系統會隨機抽出一個數字 (0–9)，  
+             你需要利用桌上的元件組裝電路，  
+             讓七段顯示器顯示該數字。
     """)
 
-    st.info("提示：未亮起的 LED 請輸入 0")
+    # 初始化
+    if "target_number" not in st.session_state:
+        st.session_state.target_number = None
 
-    st.subheader("請輸入各顏色 LED 數量")
-    red = st.number_input("🔴 紅色 LED", min_value=0, max_value=10, value=0)
-    green = st.number_input("🟢 綠色 LED", min_value=0, max_value=10, value=0)
-    white = st.number_input("⚪ 白色 LED", min_value=0, max_value=10, value=0)
-    yellow = st.number_input("🟡 黃色 LED", min_value=0, max_value=10, value=0)
+    # 抽選按鈕
+    if st.button("🎲 抽選數字"):
 
-    if st.button("確認第一關答案", use_container_width=True):
-        if red == 3 and green == 0 and white == 1 and yellow == 2:
-            st.success("第一關成功！LED 模組已恢復。")
-            st.balloons()
+        with st.spinner("抽選中..."):
+            time.sleep(1)
 
-            complete_level("第一關：LED電路")
-            unlock_level("第二關：RLC濾波")
+        st.session_state.target_number = random.randint(0,9)
 
-            with st.spinner("正在解鎖第二關..."):
+    # 顯示抽到的數字
+    if st.session_state.target_number is not None:
+
+        st.subheader("任務數字")
+
+        st.markdown(
+            f"""
+            <div style="
+            font-size:90px;
+            font-weight:bold;
+            text-align:center;
+            background:#0f172a;
+            color:white;
+            padding:30px;
+            border-radius:15px;">
+            {st.session_state.target_number}
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        st.write("請讓七段顯示器顯示此數字")
+
+        password = st.text_input("請輸入通關密碼")
+
+        if st.button("確認答案"):
+
+            if password == "nsysu-F35":
+
+                st.success("第一關成功！顯示模組恢復。")
+                st.balloons()
+
+                complete_level("第一關：LED電路")
+                unlock_level("第二關：RLC濾波")
+
                 time.sleep(1.5)
 
-            go_to("第二關：RLC濾波")
-        else:
-            st.error("LED 數量不正確，請再檢查電路。")
+                go_to("第二關：RLC濾波")
+
+            else:
+
+                st.error("顯示結果不正確，請重新檢查電路。")
+
+    else:
+
+        st.info("請先按「抽選數字」開始任務")
 
 # =========================
 # 第二關
@@ -240,13 +279,16 @@ elif page == "第二關：RLC濾波":
 
     請調整電腦中的 R、L、C 的數值，使電路達到指定的濾波效果。
     """)
+    st.components.v1.iframe(
+    "https://cc.xiaogd.net/?ctz=CQAgjCAMB0l5YCcyWrQDhAZmmA7AGxbIBMW6BY6VWALCAKySMi2YMCmAtGGAFAA3EIgLYsoka0zMIBZgyiKYDPgHdhotiBIl6WyGu26xE0VnFQ+AY1aSwc26JINRzGPDCQS2aARJgGdCx8RCwEcQJ6dwQ+ACdGRG97eUTtF0VaML4ADxA-PG17PIYC-0RWcFEAGwB7AEMAEz4Goz1MLBJmLW8GjgAzOoBXKoAXZuxO8BJMHXowae0QXoHhsZbZtLNJ5ycl-qHR8Y7mcydjU8Xlg7H1DfmZ431DDZ3Wk0t1Y6lWIqf1Wl+mABTnSBn+RVeX1eYImMgWWAYSQWMIRSPaiPeKIxFy+FxhtDsDgJmmkhmJ32B33xki0DFSfwS3lpqWSH0cm3ZeLJkhx2IsMLp3legsxhhFF3JXJqimkrEgiHYUFg8EQhBczkU3hOfGl9FltHl5QU7nmCggTOwfCAA",
+    height=600
+    )
 
-    r = st.slider("R值", 1, 100, 50)
-    l = st.slider("L值", 1, 100, 20)
-    c = st.slider("C值", 1, 100, 10)
+    r = st.slider("R值(kΩ)", 1, 10, 1)
+    c = st.slider("C值(uF)", 1, 100, 10)
 
     if st.button("測試濾波", use_container_width=True):
-        if r == 50 and l == 20 and c == 10:
+        if r == 1 and c == 100:
             st.success("第二關成功！濾波模組已恢復。")
             st.snow()
 
