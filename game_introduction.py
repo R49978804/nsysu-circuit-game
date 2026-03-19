@@ -1,6 +1,7 @@
 import time
 import streamlit as st
 import random
+import base64
 
 st.set_page_config(
     page_title="中山機電偵查局",
@@ -15,7 +16,7 @@ if "current_page" not in st.session_state:
     st.session_state.current_page = "首頁"
 
 if "unlocked_levels" not in st.session_state:
-    st.session_state.unlocked_levels = ["首頁", "第一關：LED電路"]
+    st.session_state.unlocked_levels = ["首頁", "第一關：LED電路", "第二關：RC電路", "系統恢復"]
 
 if "completed_levels" not in st.session_state:
     st.session_state.completed_levels = []
@@ -42,6 +43,23 @@ def level_status_text(level_name: str):
         return "🔓 已解鎖"
     else:
         return "🔒 未解鎖"
+    
+def show_pdf(pdf_path, height=600):
+    with open(pdf_path, "rb") as f:
+        pdf_data = f.read()
+
+    base64_pdf = base64.b64encode(pdf_data).decode("utf-8")
+
+    pdf_display = f"""
+    <iframe
+        src="data:application/pdf;base64,{base64_pdf}"
+        width="100%"
+        height="{height}"
+        type="application/pdf">
+    </iframe>
+    """
+
+    st.markdown(pdf_display, unsafe_allow_html=True)
 
 # =========================
 # Sidebar
@@ -56,9 +74,8 @@ for p in all_pages:
         # 最終畫面不讓玩家手動點進去
         continue
 
-    unlocked = p in st.session_state.unlocked_levels
     label = f"{p}　{level_status_text(p)}"
-    if st.sidebar.button(label, disabled=not unlocked, key=f"nav_{p}"):
+    if st.sidebar.button(label, key=f"nav_{p}"):
         go_to(p)
 
 st.sidebar.markdown("---")
@@ -148,31 +165,15 @@ if page == "首頁":
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("## 🕵️ 偵查提示")
-
     st.markdown("""
-    <div class="step-card">
-        <div class="step-title">1️⃣ 完成實體電路</div>
-        <div class="step-text">
-            根據現場的線索與元件功能，完成電路拼接。
+    <div class="step-card" style="text-align:center;">
+        <div class="step-title">🕵️ 偵查提示</div>
+        <div class="step-text" style="font-size:26px; font-weight:800;">
+            🔧 組裝電路
         </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    <div class="step-card">
-        <div class="step-title">2️⃣ 在系統輸入答案</div>
-        <div class="step-text">
-            觀察濾波結果與轉換數值，將你找到的答案輸入系統。
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    <div class="step-card">
-        <div class="step-title">3️⃣ 解鎖下一關</div>
-        <div class="step-text">
-            每成功修復一個模組，就能取得新線索，並逐步修復系統。
+        <div style="font-size:28px; margin:10px 0;">⬇️</div>
+        <div class="step-text" style="font-size:26px; font-weight:800;">
+            📡 完成濾波
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -206,7 +207,7 @@ elif page == "第一關：LED電路":
                 讓七段顯示器可以成功顯示。
         """)
     with col2:
-        st.image("images/seven_segment_example.png", caption="七段顯示器示意圖", use_container_width=True)
+        st.image("images/level1_1.png", caption="七段顯示器示意圖", use_container_width=True)
 
     # 初始化
     if "target_number" not in st.session_state:
@@ -285,9 +286,12 @@ elif page == "第二關：RC電路":
     要請你調整電腦中的 **C 數值** ，達到指定的濾波效果
     """)
     st.markdown("#### 📘工程日誌顯示：正常的電壓平均值要在 **3.4V~3.5V** 之間。")
+
+    show_pdf("files/filter.pdf", height=600)
+
     st.components.v1.iframe(
     "https://www.falstad.com/circuit/circuitjs.html?ctz=CQAgjCAMB0l5YCcyWrQDhAZmmA7AGxbIBMW6BY6VWALCAKySMi2YMCmAtGGAFAA3VgXpYCmWiJDpmzCAWYMoymAz4B3YfRmNEJabI279YiVNNQ+AY2lSk+ivRLoJUWPEhovacNDzw8QjBPEgYZcjc4CEg+ACcQRAVwPQSk50xmWiwYgA8ExCUSNnBIUJBQiHowAhAAGwB7AEMAEz5m4wMQcUwdfWaOADNGgFdagBcjbs68dG1DTTwSZgspixjNR2SHKR112zmQGYO9zZ1E5l2jc87r+0sNqXT97HF754tF5de966frtauSQsmwBmiwDBMr1CNVB2Ah5RccMhGSM0JemF4yLe4Icy3hdz2aJ0OM6hIYNR0+Ap83AYCxxO+Rh0lMIpLaIB41M6vRA-SGowmeXIeHKxVo+HKDEq4BqDRacSRW0VT0y2SMnPRHLAtFEjM0PB1nQ1lyEBt1mDNpPAXUUKjcalokCw0iwJlmJSKrF2rAA+ugfZAfWBwfhAwwA7gfTwfSQfbQfVg+I7nVwlphyPRMlJloH-YHHYh-eGYGAo6XY9kE0mnUqLOKapJM+U8H6A3HPEWI6Xo7GSC3E-rqpqGSjNAwUitEQD6s3pMpg1L-CwS8oan3sNhZJuN03RHwgA",
-    height=600
+    height=500
     )
     st.link_button(
     "🔧 開啟濾波器模擬器",
