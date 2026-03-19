@@ -148,31 +148,15 @@ if page == "首頁":
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("## 🕵️ 偵查提示")
-
     st.markdown("""
-    <div class="step-card">
-        <div class="step-title">1️⃣ 完成實體電路</div>
-        <div class="step-text">
-            根據現場的線索與元件功能，完成電路拼接。
+    <div class="step-card" style="text-align:center;">
+        <div class="step-title">🕵️ 偵查提示</div>
+        <div class="step-text" style="font-size:26px; font-weight:800;">
+            🔧 組裝電路
         </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    <div class="step-card">
-        <div class="step-title">2️⃣ 在系統輸入答案</div>
-        <div class="step-text">
-            觀察濾波結果與轉換數值，將你找到的答案輸入系統。
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
-    <div class="step-card">
-        <div class="step-title">3️⃣ 解鎖下一關</div>
-        <div class="step-text">
-            每成功修復一個模組，就能取得新線索，並逐步修復系統。
+        <div style="font-size:28px; margin:10px 0;">⬇️</div>
+        <div class="step-text" style="font-size:26px; font-weight:800;">
+            📡 完成濾波
         </div>
     </div>
     """, unsafe_allow_html=True)
