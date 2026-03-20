@@ -178,15 +178,19 @@ if page == "首頁":
 elif page == "第一關：LED電路":
     st.title("💡 第一關：七段顯示器挑戰")
 
-    st.write("""
-             偵查員進入控制室後發現顯示模組被破壞。
-             
-             系統使用 **七段顯示器 (Seven Segment Display)** 來顯示數字。
+    col1, col2 = st.columns([1.4, 1])
+    with col1:
+        st.write("""
+                偵查員進入控制室後發現顯示模組被破壞。
+                
+                系統使用 **七段顯示器 (Seven Segment Display)** 來顯示數字。
 
-             系統會隨機抽出一個數字 **(0–9)**，  
-             你需要利用桌上的元件組裝電路，
-             讓七段顯示器可以成功顯示。
-    """)
+                系統會隨機抽出一個數字 **(0–9)**，  
+                你需要利用桌上的元件組裝電路，
+                讓七段顯示器可以成功顯示。
+        """)
+    with col2:
+        st.image("images/level1_1.png", caption="七段顯示器示意圖", use_container_width=True)
 
     # 初始化
     if "target_number" not in st.session_state:
@@ -254,17 +258,17 @@ elif page == "第二關：RC電路":
     st.title("📡 第二關：訊號濾波任務")
 
     st.write("""
-    現在你已經成功恢復電源，檢測訊號發現環境感測器的訊號有異常。""")
+    現在你已經成功顯示模組，發現環境感測器的訊號有異常。
+             """)
              
     st.markdown("### 💻系統顯示：感測訊號受到雜訊干擾，導致數據不穩定")
 
     st.write("""
-    因此你查看了放在桌子旁邊的工程日誌，寫到：這個模組原本使用 RC 濾波器來處理訊號。  
-    但現在有些元件的數值被調整，所以濾波效果失效了。  
-
-    要請你調整電腦中的 **C 數值** ，達到指定的濾波效果
+    因此你查看了放在桌子旁邊的工程日誌：
     """)
-    st.markdown("#### 📘工程日誌顯示：正常的電壓平均值要在 **3.4V~3.5V** 之間。")
+
+    st.image("images/level2_1.png", caption="工程日誌", use_container_width=True)
+
     st.components.v1.iframe(
     "https://www.falstad.com/circuit/circuitjs.html?ctz=CQAgjCAMB0l5YCcyWrQDhAZmmA7AGxbIBMW6BY6VWALCAKySMi2YMCmAtGGAFAA3VgXpYCmWiJDpmzCAWYMoymAz4B3YfRmNEJabI279YiVNNQ+AY2lSk+ivRLoJUWPEhovacNDzw8QjBPEgYZcjc4CEg+ACcQRAVwPQSk50xmWiwYgA8ExCUSNnBIUJBQiHowAhAAGwB7AEMAEz5m4wMQcUwdfWaOADNGgFdagBcjbs68dG1DTTwSZgspixjNR2SHKR112zmQGYO9zZ1E5l2jc87r+0sNqXT97HF754tF5de966frtauSQsmwBmiwDBMr1CNVB2Ah5RccMhGSM0JemF4yLe4Icy3hdz2aJ0OM6hIYNR0+Ap83AYCxxO+Rh0lMIpLaIB41M6vRA-SGowmeXIeHKxVo+HKDEq4BqDRacSRW0VT0y2SMnPRHLAtFEjM0PB1nQ1lyEBt1mDNpPAXUUKjcalokCw0iwJlmJSKrF2rAA+ugfZAfWBwfhAwwA7gfTwfSQfbQfVg+I7nVwlphyPRMlJloH-YHHYh-eGYGAo6XY9kE0mnUqLOKapJM+U8H6A3HPEWI6Xo7GSC3E-rqpqGSjNAwUitEQD6s3pMpg1L-CwS8oan3sNhZJuN03RHwgA",
     height=600
